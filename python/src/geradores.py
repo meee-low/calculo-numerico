@@ -16,6 +16,45 @@ import numpy as np
 from matplotlib import pyplot as plt
 import utils
 
+def gerador_bissecao(f):
+    """Retorna uma função geradora que usa o método da bisseção.
+
+    Args:
+        f (function): A função cujas raízes queremos encontrar.
+
+    Returns:
+        (function): A função geradora.
+    """
+    def gerador(x_esquerda, x_direita, max_iteracoes=500):
+        """Gera iterações através do método da bisseção.
+
+        Args:
+            x_esquerda (float): O valor inicial do x à esquerda da raiz.
+            x_direita (float): O valor inicial do x à direita da raiz.
+            max_iteracoes (int, optional): O número máximo de iterações. 500 por padrão.
+
+        Raises:
+            ValueError: Quando os valores iniciais resultam em pontos do mesmo lado do eixo x \
+                (sem raiz garantida entre eles).
+
+        Yields:
+            float: O resultado da próxima iteração.
+        """
+        if f(x_esquerda) * f(x_direita) > 0:
+            raise ValueError(f"Os valores da função nos valores \
+                iniciais devem ter sinais opostos. Valores dados: {x_esquerda}, {x_direita}")
+        for _ in range(max_iteracoes):
+            medio = (x_esquerda + x_direita) / 2
+            yield medio
+            if f(medio) * f(x_direita) < 0:
+                # se o médio e o x da direita ainda tiverem sinais diferentes
+                x_esquerda = medio
+            else:
+                # médio e o x da direita tem sinais iguais, então troca o x da direita
+                x_direita = medio
+
+    return gerador
+
 def gerador_aproximacoes_sucessivas(funcao_de_iteracao):
     """Retorna uma função geradora que usa o método das aproximações sucessivas.
 
