@@ -47,14 +47,14 @@ def gerador_bissecao(f):
             raise ValueError(f"Os valores da função nos valores \
                 iniciais devem ter sinais opostos. Valores dados: {x_esquerda}, {x_direita}")
         for _ in range(max_iteracoes):
-            medio = (x_esquerda + x_direita) / 2
+            medio = (x_esquerda + x_direita) / 2 # próxima iteração
             yield medio
             if f(medio) * f(x_direita) < 0:
                 # se o médio e o x da direita ainda tiverem sinais diferentes
-                x_esquerda = medio
+                x_esquerda = medio # avança o x da esquerda até o médio
             else:
                 # médio e o x da direita tem sinais iguais, então troca o x da direita
-                x_direita = medio
+                x_direita = medio # recua o x da direita até o médio
 
     return gerador
 
