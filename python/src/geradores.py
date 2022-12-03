@@ -14,6 +14,9 @@ Exemplo de uso:
 """
 import numpy as np
 from matplotlib import pyplot as plt
+import os
+import sys
+sys.path.append(os.path.dirname(os.path.abspath(__file__))) # importa da mesma pasta
 import utils
 
 def gerador_bissecao(f):
