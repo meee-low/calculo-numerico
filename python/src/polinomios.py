@@ -1,23 +1,43 @@
 class Polinomio:
     def __init__(self, *args):
+        if len(args) < 2:
+            raise ValueError("O polinômio precisa de pelo menos dois coeficientes (ex.: ax + b).")
         self.coeficientes = args
 
     def __call__(self, x):
+        """Avalia o polinômio no valor `x`.
+
+        Args:
+            x (float): O valor de x.
+
+        Returns:
+            float: O resultado do polinômio no valor `x`.
+        """
         soma = 0
         for potencia, coef in enumerate(self.coeficientes[::-1]):
             soma += coef * x**potencia
         return soma
 
     def cotas(self):
+        """Calcula as cotas pelas cotas de Kojima. Para polinômios lineares, usa cotas de Fujiwara.
+
+        As cotas indicam que as raízes do polinômio se encontram dentro do raio dado no resultado:
+        |r| <= cota
+
+        Returns:
+            float: A cota de Kojima (ou Fujiwara).
+        """
         k = [abs(a_i / self.coeficientes[0]) ** (1/(i+1))
              for i, a_i in enumerate(self.coeficientes[1:])]
 
-        # Cota de Kojima:
         sorted_k = sorted(k)
-        q1, q2 = sorted_k[-1], sorted_k[-2]
+        q1 = sorted_k[-1]
+        # Caso não tenha termos suficientes, usa o termo anterior (cota de Fujiwara):
+        q2 = sorted_k[-2] if len(sorted_k) >= 2 else q1
         return q1 + q2
 
     def conta_raizes(self):
+        """Conta as raízes positivas e negativas pela regra de Descartes."""
         # Regra de Descartes
         if len(self.coeficientes) <= 1:
             raise ValueError("Não tem termos suficientes.")
