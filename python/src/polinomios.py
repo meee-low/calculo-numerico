@@ -1,5 +1,25 @@
+"""
+Define a classe Polinomio.
+
+Exemplo de uso:
+  # f(x) = x^3 - 5x + 12
+  f = Polinomio(1, 0, -5, 12)
+  f.cotas()
+  f.conta_raizes()
+  f(0)
+"""
+
 class Polinomio:
     def __init__(self, *args):
+        """
+
+        Args:
+            args: os coeficientes do polinômio, em ordem da maior potência para a menor potência, \
+                incluindo os coeficientes 0.
+
+        Raises:
+            ValueError: _description_
+        """
         if len(args) < 2:
             raise ValueError("O polinômio precisa de pelo menos dois coeficientes (ex.: ax + b).")
         self.coeficientes = args
